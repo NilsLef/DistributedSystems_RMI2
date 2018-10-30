@@ -6,9 +6,6 @@ public interface ICarRentalAgency {
 	
 	public IManagerSession createManagerSession();
 	
-	
-	
-	
 	public void terminateReservationSession();
 	
 	public void terminateManagerSession();
