@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import carRentalCompany.ICarRentalCompany;
+import session.IManagerSession;
 import carRentalCompany.CarType;
 
 
@@ -160,14 +161,13 @@ public class Client extends AbstractTestManagement {
 	}  */
 
 	@Override
-	protected Set getBestClients(Object ms) throws Exception {
+	protected Set<String> getBestClients(IManagerSession ms) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return ms.getBestClients();
 	}
 
 	@Override
 	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -217,7 +217,7 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 /*

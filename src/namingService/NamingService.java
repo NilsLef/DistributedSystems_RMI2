@@ -27,5 +27,13 @@ public class NamingService implements INamingService {
 	public ICarRentalCompany getRegisteredCompany(String companyName) {
 		return getAllRegisteredCompanies().get(companyName);
 	}
+	
+	public boolean doesCompanyExist(String companyName) {
+		if (getAllRegisteredCompanies().containsKey(companyName)) {
+			return true;
+		} else {
+			return false; 
+		}
+	}
 
 }
