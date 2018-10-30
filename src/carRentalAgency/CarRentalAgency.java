@@ -1,5 +1,6 @@
 package carRentalAgency;
 
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,14 +15,21 @@ public class CarRentalAgency implements ICarRentalAgency {
 	
 	private final INamingService namingService;
 
-	public CarRentalAgency() {
-		// TODO Auto-generated constructor stub
+	public CarRentalAgency(INamingService ns) {
+		this.namingService = ns;
 	}
 
 	@Override
-	public IReservationSession createReservationSession() {
-		// TODO Auto-generated method stub
-		return null;
+	public IReservationSession createReservationSession(String id, String clientName) {
+		IReservationSession s = this.reservationSessions.get(id);
+		if (s != null)
+			return s;
+		else {
+			ReservationSession newSession = new ReservationSession(this.namingService, id, clientName);
+			this.reservationSessions.put(id, newSession);
+			return (IReservationSession) UnicastRemoteObject.exportObject(newSession, 0);
+		}
+		
 	}
 
 	@Override
