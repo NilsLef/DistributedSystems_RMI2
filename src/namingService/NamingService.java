@@ -1,6 +1,7 @@
 package namingService;
 import java.util.HashMap;
 import java.util.Map;
+import carRentalCompany.*;
 
 public class NamingService implements INamingService {
 
