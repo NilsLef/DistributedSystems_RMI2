@@ -2,6 +2,7 @@ package client;
 
 import java.rmi.NotBoundException;
 
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -11,7 +12,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import carRentalCompany.ICarRentalCompany;
+import carRentalCompany.Quote;
 import session.IManagerSession;
+import session.IReservationSession;
 import carRentalCompany.CarType;
 
 
@@ -71,161 +74,58 @@ public class Client extends AbstractTestManagement {
 		}
 	}
 	
-	/**
-	 * Check which car types are available in the given period
-	 * and print this list of car types.
-	 *
-	 * @param 	start
-	 * 			start time of the period
-	 * @param 	end
-	 * 			end time of the period
-	 * @throws 	Exception
-	 * 			if things go wrong, throw exception
-	 */
-/*	@Override
-	protected void checkForAvailableCarTypes(Date start, Date end) throws Exception {
-		Set<CarType> list = getCarRentalCompany().getAvailableCarTypes(start, end);
-		for ( CarType type : list) {
-			System.out.println(type);
-		}
-	}
-
-	/**
-	 * Retrieve a quote for a given car type (tentative reservation).
-	 * 
-	 * @param	clientName 
-	 * 			name of the client 
-	 * @param 	start 
-	 * 			start time for the quote
-	 * @param 	end 
-	 * 			end time for the quote
-	 * @param 	carType 
-	 * 			type of car to be reserved
-	 * @param 	region
-	 * 			region in which car must be available
-	 * @return	the newly created quote
-	 *  
-	 * @throws 	Exception
-	 * 			if things go wrong, throw exception
-	 */
-/*	@Override
-	protected Quote createQuote(String clientName, Date start, Date end,
-			String carType, String region) throws Exception {
-		ReservationConstraints constraints = new ReservationConstraints(start, end, carType, region);
-		return getCarRentalCompany().createQuote(constraints, clientName);
-	}
-
-	/**
-	 * Confirm the given quote to receive a final reservation of a car.
-	 * 
-	 * @param 	quote 
-	 * 			the quote to be confirmed
-	 * @return	the final reservation of a car
-	 * 
-	 * @throws 	Exception
-	 * 			if things go wrong, throw exception
-	 */
-/*	@Override
-	protected Reservation confirmQuote(Quote quote) throws Exception {
-		return getCarRentalCompany().confirmQuote(quote);
-	}
-	
-	/**
-	 * Get all reservations made by the given client.
-	 *
-	 * @param 	clientName
-	 * 			name of the client
-	 * @return	the list of reservations of the given client
-	 * 
-	 * @throws 	Exception
-	 * 			if things go wrong, throw exception
-	 */
-//	@Override
-/*	protected List<Reservation> getReservationsByRenter(String clientName) throws Exception {
-		return getCarRentalCompany().getReservationsByRenter(clientName);
-	}
-
-	/**
-	 * Get the number of reservations for a particular car type.
-	 * 
-	 * @param 	carType 
-	 * 			name of the car type
-	 * @return 	number of reservations for the given car type
-	 * 
-	 * @throws 	Exception
-	 * 			if things go wrong, throw exception
-	 */
-/*	@Override
-	protected int getNumberOfReservationsForCarType(String carType) throws Exception {
-		return getCarRentalCompany().getNumberOfReservationsForCarType(carType);
-	}  */
 
 	@Override
-	protected Set<String> getBestClients(IManagerSession ms) throws Exception {
-		// TODO Auto-generated method stub
-		return ms.getBestClients();
+	protected Set<String> getBestClients(Object ms) throws Exception {
+		return ((IManagerSession) ms).getBestClients();
 	}
 
 	@Override
 	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
-		return null;
+		return ((IReservationSession) session).getCheapestCarType();
 	}
 
 	@Override
 	protected CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return ((IManagerSession) ms).getMostPopularCarTypeIn(carRentalCompanyName, year);
 	}
 
 	@Override
 	protected Object getNewReservationSession(String name) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		// TODO Auto-generated method stub
-		
+		((IReservationSession) session).checkForAvailableCarTypes();
 	}
 
 	@Override
 	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		((IReservationSession) session).addQuoteToSession(name, start, end, carType, region);
 	}
 
 	@Override
-	protected List confirmQuotes(Object session, String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<Quote> confirmQuotes(Object session, String name) throws Exception {
+		return ((IReservationSession) session).confirmQuotes(name);
 	}
 
 	@Override
 	protected int getNumberOfReservationsBy(Object ms, String clientName) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ((IManagerSession) ms).getNumberOfReservationsBy(clientName);
 	}
 
 	@Override
 	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		
-		return 0;
+		return ((IManagerSession) ms).getNumberOfReservationsForCarType(carRentalName, carType);	
 	}
-/*
-	@Override
-	protected void processLine(String name, String cmd, List<Character> flags, StringTokenizer scriptLineTokens)
-			throws ApplicationException {
-		// TODO Auto-generated method stub
-		
-	}*/
+
 
 }
