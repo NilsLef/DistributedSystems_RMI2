@@ -1,12 +1,14 @@
 package client;
 
 import java.text.ParseException;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import rental.Reservation;
+// zelf geimporteerd op 30/10
+import carRentalCompany.Reservation;
 
 /**
  * 

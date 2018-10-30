@@ -1,5 +1,5 @@
 
-package rental;
+package carRentalCompany;
 
 public class Reservation extends Quote {
 

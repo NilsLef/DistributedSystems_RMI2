@@ -1,4 +1,4 @@
-package rental;
+package carRentalCompany;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -1,6 +1,7 @@
 package client;
 
 import java.rmi.NotBoundException;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -8,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+
+import carRentalCompany.ICarRentalCompany;
+import carRentalCompany.CarType;
 
 
 public class Client extends AbstractTestManagement {
@@ -23,8 +27,8 @@ public class Client extends AbstractTestManagement {
 		// An example reservation scenario on car rental company 'Hertz' would be...		
 		String carRentalCompanyName = "Hertz";
 
-		//Client client = new Client("simpleTrips", carRentalCompanyName);
-		//client.run();
+		Client client = new Client("simpleTrips", carRentalCompanyName);
+		client.run();
 	}
 	
 
@@ -35,7 +39,7 @@ public class Client extends AbstractTestManagement {
 	/**
 	 * A private variable registering the car rental company
 	 */
-	//private ICarRentalCompany crc;
+	private ICarRentalCompany crc;
 	
 	/**
 	 * Return the car rental company of this client
@@ -52,7 +56,7 @@ public class Client extends AbstractTestManagement {
 	 * @param carRentalCompanyName
 	 * 		  The name of the requested car rental company as a string
 	 */
-	/*public Client(String scriptFile, String carRentalCompanyName) {
+	public Client(String scriptFile, String carRentalCompanyName) {
 		super(scriptFile);
 
 
@@ -64,7 +68,7 @@ public class Client extends AbstractTestManagement {
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 	/**
 	 * Check which car types are available in the given period
@@ -168,7 +172,7 @@ public class Client extends AbstractTestManagement {
 	}
 
 	@Override
-	protected client.CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year)
+	protected CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

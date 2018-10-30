@@ -1,6 +1,7 @@
 package client;
 
 import java.text.ParseException;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,7 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import rental.CarType;
+// onze import op 30/10
+import carRentalCompany.CarType;
 
 /**
  * This class forwards all commands starting with B to AbstractTestAgency and 
