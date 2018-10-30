@@ -10,21 +10,28 @@ import java.util.Map;
 import java.util.Set;
 
 import carRentalCompany.*;
+import namingService.INamingService;
 
-public class ReservationSession implements IReservationSession {
+public class ReservationSession extends Session implements IReservationSession {
 	
 	
-	private Map<Quote, CarRentalCompany> allQuotes = new HashMap<Quote, CarRentalCompany>();
+	private Map<Quote, ICarRentalCompany> allQuotes = new HashMap<Quote, ICarRentalCompany>();
+	private String clientName;
+	
+	public ReservationSession(INamingService ns, String cName, String sID) {
+		super(ns, sID);
+		this.clientName = cName;
+	}
     
 
     @Override
     public Set<String> getAllRentalCompanies() {
-        return new HashSet<String>(RentalStore.getRentals().keySet());
+        return namingService.getAllRegisteredCompanies().keySet();
     }
     
     @Override
-    public Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException {
-        for (CarRentalCompany crc : RentalStore.getRentals().values()) {
+    public Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException {
+        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
             try {
                 Quote quote = crc.createQuote(constraint, carRenter);
                 this.allQuotes.put(quote, crc);
@@ -43,10 +50,10 @@ public class ReservationSession implements IReservationSession {
     }
     
     @Override
-    public List<Reservation> confirmQuotes() throws ReservationException  {
-        Map<Reservation, CarRentalCompany> confirmedRes = new HashMap<Reservation, CarRentalCompany>();
+    public List<Reservation> confirmQuotes() throws ReservationException, RemoteException  {
+        Map<Reservation, ICarRentalCompany> confirmedRes = new HashMap<Reservation, ICarRentalCompany>();
         try {
-            for (Map.Entry<Quote, CarRentalCompany> quote : this.allQuotes.entrySet()) {
+            for (Map.Entry<Quote, ICarRentalCompany> quote : this.allQuotes.entrySet()) {
                 Reservation reservation = quote.getValue().confirmQuote(quote.getKey());
                 confirmedRes.put(reservation, quote.getValue());
             }
@@ -56,14 +63,14 @@ public class ReservationSession implements IReservationSession {
             }
             throw new ReservationException("error");
         }
-        this.allQuotes = new HashMap<Quote, CarRentalCompany>();
+        this.allQuotes = new HashMap<Quote, ICarRentalCompany>();
         return new ArrayList<Reservation>(confirmedRes.keySet());
     }
     
     @Override
-    public Set<CarType> getAvailableCarTypes(Date start, Date end) {
+    public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
         Set<CarType>  availableCarTypes = new HashSet<CarType>();
-        for (CarRentalCompany crc : RentalStore.getRentals().values()) {
+        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
             availableCarTypes.addAll(crc.getAvailableCarTypes(start, end));
         }
         return availableCarTypes;

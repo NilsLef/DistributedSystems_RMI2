@@ -12,11 +12,11 @@ public interface IReservationSession extends Remote {
 	
     Set<String> getAllRentalCompanies();
     
-    Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException;
+    Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException;
     void removeQuote(Quote quote);
     Set<Quote> getCurrentQuotes();
-    List<Reservation> confirmQuotes() throws ReservationException;
-    public Set<CarType> getAvailableCarTypes(Date start, Date end);
+    List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
+    public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException;
     //public String getClientName() throws RemoteException;
 	
 
