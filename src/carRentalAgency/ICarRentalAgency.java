@@ -1,6 +1,11 @@
 package carRentalAgency;
 
-public interface ICarRentalAgency {
+import java.rmi.Remote;
+
+import session.IManagerSession;
+import session.IReservationSession;
+
+public interface ICarRentalAgency extends Remote {
 	
 	public IReservationSession createReservationSession();
 	
