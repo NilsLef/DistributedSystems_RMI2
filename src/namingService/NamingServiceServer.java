@@ -7,7 +7,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import carRentalCompany.ReservationException;
 
-public class namingServiceServer {
+public class NamingServiceServer {
 			
 		public static void main(String[] args) throws ReservationException, NumberFormatException, IOException {
 			System.setSecurityManager(null);
