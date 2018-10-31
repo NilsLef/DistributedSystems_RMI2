@@ -1,5 +1,6 @@
 package carRentalAgency;
 
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class CarRentalAgency implements ICarRentalAgency {
 	}
 
 	@Override
-	public IReservationSession createReservationSession(String id, String clientName) {
+	public IReservationSession createReservationSession(String id, String clientName) throws RemoteException {
 		IReservationSession s = this.reservationSessions.get(id);
 		if (s != null)
 			return s;
