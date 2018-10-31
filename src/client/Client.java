@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import carRentalAgency.ICarRentalAgency;
 import carRentalCompany.ICarRentalCompany;
 import carRentalCompany.Quote;
 import session.IManagerSession;
@@ -27,11 +28,9 @@ public class Client extends AbstractTestManagement {
 	public static void main(String[] args) throws Exception {
 
 		System.setSecurityManager(null);
-		
 		// An example reservation scenario on car rental company 'Hertz' would be...		
-		String carRentalCompanyName = "Hertz";
-
-		Client client = new Client("simpleTrips", carRentalCompanyName);
+		//String carRentalCompanyName = "Hertz";
+		Client client = new Client("simpleTrips", "agency");
 		client.run();
 	}
 	
@@ -43,14 +42,14 @@ public class Client extends AbstractTestManagement {
 	/**
 	 * A private variable registering the car rental company
 	 */
-	private ICarRentalCompany crc;
+	private ICarRentalAgency cra;
 	
 	/**
 	 * Return the car rental company of this client
 	 */
-	/*private ICarRentalCompany getCarRentalCompany() {
-		return this.crc;
-	}*/
+	private ICarRentalAgency getCarRentalAgency() {
+		return this.cra;
+	}
 	
 	/**
 	 * Constructs this client
@@ -60,14 +59,14 @@ public class Client extends AbstractTestManagement {
 	 * @param carRentalCompanyName
 	 * 		  The name of the requested car rental company as a string
 	 */
-	public Client(String scriptFile, String carRentalCompanyName) {
+	public Client(String scriptFile, String carRentalAgencyName) {
 		super(scriptFile);
 
 
 		try {
 			Registry registry = LocateRegistry.getRegistry(null);
-			ICarRentalCompany stub = (ICarRentalCompany) registry.lookup(carRentalCompanyName);
-			this.crc = stub;
+			ICarRentalAgency stub = (ICarRentalAgency) registry.lookup(carRentalAgencyName);
+			this.cra = stub;
 
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();

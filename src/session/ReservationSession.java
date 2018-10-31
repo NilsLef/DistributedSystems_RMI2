@@ -23,6 +23,9 @@ public class ReservationSession extends Session implements IReservationSession {
 		this.clientName = cName;
 	}
     
+	public String getClientName() {
+		return this.clientName;
+	}
 
     @Override
     public Set<String> getAllRentalCompanies() {
@@ -30,12 +33,11 @@ public class ReservationSession extends Session implements IReservationSession {
     }
     
     @Override
-    public Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException {
+    public void createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException {
         for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
             try {
                 Quote quote = crc.createQuote(constraint, carRenter);
                 this.allQuotes.put(quote, crc);
-                return quote;
             } catch (ReservationException exc) {
                 System.out.println("Reservation exception was thrown");
             }
@@ -46,7 +48,7 @@ public class ReservationSession extends Session implements IReservationSession {
     
     @Override
     public Set<Quote> getCurrentQuotes()  {
-        return new HashSet(this.allQuotes.keySet());
+        return new HashSet<Quote>(this.allQuotes.keySet());
     }
     
     @Override
