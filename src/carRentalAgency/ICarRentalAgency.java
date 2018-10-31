@@ -12,11 +12,11 @@ public interface ICarRentalAgency extends Remote {
 	
 	public IReservationSession createReservationSession(String id, String clientName) throws RemoteException;
 	
-	public IManagerSession createManagerSession();
+	public IManagerSession createManagerSession(String id, String clientName) throws RemoteException;
 	
-	public void terminateReservationSession();
+	public void terminateReservationSession(String id);
 	
-	public void terminateManagerSession();
+	public void terminateManagerSession(String id);
 	
 
 

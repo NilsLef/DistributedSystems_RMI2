@@ -12,7 +12,7 @@ import session.*;
 public class CarRentalAgency implements ICarRentalAgency {
 
 	private Map<String, ReservationSession> reservationSessions = new HashMap<String, ReservationSession>();
-	private Map<String, ManagerSession> ManagerSessions = new HashMap<String, ManagerSession>();
+	private Map<String, ManagerSession> managerSessions = new HashMap<String, ManagerSession>();
 	
 	private final INamingService namingService;
 
@@ -34,21 +34,29 @@ public class CarRentalAgency implements ICarRentalAgency {
 	}
 
 	@Override
-	public IManagerSession createManagerSession() {
-		// TODO Auto-generated method stub
-		return null;
+	public IManagerSession createManagerSession(String id, String clientName) throws RemoteException {
+		IManagerSession s = this.managerSessions.get(id);
+		if (s != null)
+			return s;
+		else {
+			ManagerSession newSession = new ManagerSession(this.namingService, id, clientName);
+			this.managerSessions.put(id, newSession);
+			return (IManagerSession) UnicastRemoteObject.exportObject(newSession, 0);
+		}
 	}
 
 	@Override
-	public void terminateReservationSession() {
-		// TODO Auto-generated method stub
-		
+	public void terminateReservationSession(String id) {
+		synchronized (this.reservationSessions) {
+			this.reservationSessions.remove(id);
+		}
 	}
 
 	@Override
-	public void terminateManagerSession() {
-		// TODO Auto-generated method stub
-		
+	public void terminateManagerSession(String id) {
+		synchronized (this.managerSessions) {
+			this.managerSessions.remove(id);
+		}
 	}
 
 }
