@@ -93,17 +93,10 @@ public class ManagerSession extends Session implements IManagerSession {
 
 
 	@Override
-	public int getNumberOfReservationsForCarType(String carRentalName, String carType) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException {
+		return this.getNamingService().getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
 	}
 
-    /*
-	@Override
-	public Set<String> getBestClients() {
-		// TODO Auto-generated method stub
-		return null;
-	}  */ 
 
 
 }
