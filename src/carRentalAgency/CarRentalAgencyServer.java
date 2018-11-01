@@ -1,4 +1,4 @@
-package namingService;
+package carRentalAgency;
 
 
 import java.io.IOException;
@@ -6,8 +6,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import carRentalCompany.ReservationException;
+import namingService.*;
 
-public class NamingServiceServer {
+public class CarRentalAgencyServer {
 			
 		public static void main(String[] args) throws ReservationException, NumberFormatException, IOException {
 			System.setSecurityManager(null);

@@ -82,4 +82,32 @@ public class ReservationSession extends Session implements IReservationSession {
     }
 
 
+	@Override
+	public String getCheapestCarType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<Quote> confirmQuotes(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void checkForAvailableCarTypes(Date start, Date end) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

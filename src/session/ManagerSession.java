@@ -70,6 +70,34 @@ public class ManagerSession extends Session implements IManagerSession {
         
     }
 
+
+	@Override
+	public Set<String> getBestClients() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public int getNumberOfReservationsBy(String clientName) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
     /*
 	@Override
 	public Set<String> getBestClients() {

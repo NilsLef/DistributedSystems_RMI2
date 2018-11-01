@@ -2,6 +2,7 @@ package session;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +18,17 @@ public interface IManagerSession extends Remote {
     
     Integer nbOfReservationsBy(String carRenter) throws RemoteException;
     
+    
+    
     String getBestCustomer();
 	
-	//public Set<String> getBestClients();
+	Set<String> getBestClients();
+	
+	CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year);
+	
+    int getNumberOfReservationsBy(String clientName);
+    int getNumberOfReservationsForCarType(String carRentalName, String carType);
+	
+	
 
 }

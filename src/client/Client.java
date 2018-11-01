@@ -103,7 +103,7 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		((IReservationSession) session).checkForAvailableCarTypes();
+		((IReservationSession) session).checkForAvailableCarTypes(start, end);
 	}
 
 	@Override

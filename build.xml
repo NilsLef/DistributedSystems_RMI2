@@ -17,7 +17,7 @@
     ******************************************************** -->
   <property name="main.client" value="client.Client" />
   <!-- <property name="main.server" value="rental.RentalServer" /> -->
-  <property name="main.server" value="namingService.NamingServiceServer" />
+  <property name="main.server" value="carRentalAgency.CarRentalAgencyServer" />
   <property name="zip.filename" value="rmi2" />
   <!--
     ********************************************************

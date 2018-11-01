@@ -18,6 +18,15 @@ public interface IReservationSession extends Remote {
     List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
     public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException;
     //public String getClientName() throws RemoteException;
+    
+    
+    String getCheapestCarType();
+	
+    void addQuoteToSession(String name, Date start, Date end, String carType, String region);
+    List<Quote> confirmQuotes(String name);
+   
+	
+	void checkForAvailableCarTypes(Date start, Date end);
 	
 
 }
