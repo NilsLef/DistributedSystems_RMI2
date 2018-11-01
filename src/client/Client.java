@@ -31,9 +31,9 @@ public class Client extends AbstractTestManagement {
 	public static void main(String[] args) throws Exception {
 
 		System.setSecurityManager(null);
-		// An example reservation scenario on car rental company 'Hertz' would be...		
-		//String carRentalCompanyName = "Hertz";
-		Client client = new Client("simpleTrips", "agency");
+		Registry r = LocateRegistry.getRegistry();
+		ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
+		Client client = new Client("simpleTrips", carRentalAgency);
 		client.run();
 	}
 	
@@ -49,12 +49,7 @@ public class Client extends AbstractTestManagement {
 	
 	INamingService ns;
 	
-	/**
-	 * Return the car rental company of this client
-	 */
-	private ICarRentalAgency getCarRentalAgency() {
-		return this.cra;
-	}
+
 	
 	/**
 	 * Constructs this client
@@ -64,18 +59,9 @@ public class Client extends AbstractTestManagement {
 	 * @param carRentalCompanyName
 	 * 		  The name of the requested car rental company as a string
 	 */
-	public Client(String scriptFile, String carRentalAgencyName) {
+	public Client(String scriptFile, ICarRentalAgency carRentalAgency) {
 		super(scriptFile);
-
-
-		try {
-			Registry registry = LocateRegistry.getRegistry(null);
-			ICarRentalAgency stub = (ICarRentalAgency) registry.lookup(carRentalAgencyName);
-			this.cra = stub;
-
-		} catch (RemoteException | NotBoundException e) {
-			e.printStackTrace();
-		}
+		this.cra = carRentalAgency;
 	}
 	
 

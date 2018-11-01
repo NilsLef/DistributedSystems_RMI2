@@ -2,24 +2,39 @@ package carRentalAgency;
 
 
 import java.io.IOException;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import carRentalCompany.ReservationException;
-import namingService.*;
+import namingService.INamingService;
 
 public class CarRentalAgencyServer {
 			
-		public static void main(String[] args) throws ReservationException, NumberFormatException, IOException {
+		public static void main(String[] args) throws ReservationException , NumberFormatException, IOException {
 			System.setSecurityManager(null);
-			INamingService namingservice = new NamingService();
-			INamingService stub = (INamingService) UnicastRemoteObject.exportObject(namingservice,0);
+			ICarRentalAgency carRentalAgency = new CarRentalAgency(createNamingService());
+			ICarRentalAgency stub = (ICarRentalAgency) UnicastRemoteObject.exportObject(carRentalAgency,0);
 			Registry r = LocateRegistry.getRegistry();
-			r.rebind("naming service", stub);
-			System.out.println("The naming service is ready for action!");
+			r.rebind("carRentalAgency", stub);
+			System.out.println("The Car Rental Agency is ready for action!");
 		}
 	
 		
+		private static INamingService createNamingService() {
+			System.setSecurityManager(null);
+			try {
+				Registry r = LocateRegistry.getRegistry();
+				INamingService ns = (INamingService) r.lookup("namingservice");
+				return ns; 
+			} catch (NotBoundException | RemoteException ex) {
+				ex.printStackTrace();
+			}
+			return null;
+			
+		}
 
 
 }
