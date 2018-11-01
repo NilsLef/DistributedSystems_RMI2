@@ -1,18 +1,20 @@
 package session;
 
+import java.util.Date;
+
 import namingService.INamingService;
 
 public abstract class Session {
 	
 	protected String sessionID;
-	//protected Date creationDate;
+	protected Date creationDate;
 	protected INamingService namingService;
 	
 
 	public Session(INamingService ns, String sID) {
 		this.namingService = ns;
 		this.sessionID = sID;
-		//this.creationDate = new Date();
+		this.creationDate = new Date();
 	}
 	
 	public INamingService getNamingService() {
@@ -23,8 +25,8 @@ public abstract class Session {
 		return this.sessionID;
 	}
 	
-	/*public Date getDate() {
+	public Date getDate() {
 		return this.creationDate;
-	}*/
+	}
 
 }

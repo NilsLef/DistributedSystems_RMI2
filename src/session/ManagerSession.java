@@ -26,7 +26,7 @@ public class ManagerSession extends Session implements IManagerSession {
 
     @Override
     public List<CarType> getAllCarTypes(String crcName) throws RemoteException {
-        return new ArrayList(this.getNamingService().getRegisteredCompany(crcName).getAllCarTypes());
+        return new ArrayList<CarType>(getNamingService().getRegisteredCompany(crcName).getAllCarTypes());
     }
 
     @Override

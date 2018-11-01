@@ -10,13 +10,14 @@ import carRentalCompany.*;
 
 public interface IReservationSession extends Remote {
 	
-    Set<String> getAllRentalCompanies();
-    
-    Quote createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException;
-    void removeQuote(Quote quote);
-    Set<Quote> getCurrentQuotes();
-    List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
+    public Set<String> getAllRentalCompanies(); 
+    public void createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException;
+    public void removeQuote(Quote quote);
+    public Set<Quote> getCurrentQuotes();
+    public List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
     public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException;
+
+
     //public String getClientName() throws RemoteException;
     
     
@@ -28,5 +29,8 @@ public interface IReservationSession extends Remote {
 	
 	void checkForAvailableCarTypes(Date start, Date end);
 	
+    public String getClientName() throws RemoteException;
+
+
 
 }
