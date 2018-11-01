@@ -2,8 +2,10 @@ package carRentalCompany;
 
 
 import java.io.Serializable;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -82,6 +84,22 @@ public class Car implements Serializable {
     
     public int getNumberOfReservations() {
     	return this.reservations.size();
+    }
+    
+    public int getNumberOfReservationsInYear(int year) throws ParseException {
+    	int amount = 0;
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	String y = Integer.toString(year);
+        Date startOfYear = sdf.parse(year +"-01-01");
+        Date endOfYear = sdf.parse(year +"-12-31");
+
+    	for (Reservation r : this.reservations) {
+    		if ((r.getStartDate().compareTo(endOfYear) < 0) || (r.getEndDate().compareTo(startOfYear) < 0))
+    				amount++;
+    	}
+    	
+    	return amount;
     }
     
     public boolean isCarType(String carType) {

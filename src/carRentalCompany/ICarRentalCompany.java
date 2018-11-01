@@ -8,13 +8,23 @@ import java.util.List;
 import java.util.Set;
 
 public interface ICarRentalCompany extends Remote {
-		
+	
+	/********
+	 * NAME *
+	 ********/
 	public String getName() throws RemoteException; 
 	
+
+    /***********
+     * Regions *
+     **********/
     public List<String> getRegions() throws RemoteException;
     
     public boolean hasRegion(String region) throws RemoteException;
-    
+	
+    /*************
+	 * CAR TYPES *
+	 *************/
 	public Collection<CarType> getAllCarTypes() throws RemoteException;
 	
 	public CarType getCarType(String carTypeName) throws RemoteException;
@@ -24,7 +34,9 @@ public interface ICarRentalCompany extends Remote {
 	
 	public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException;
 	
-	
+	/****************
+	 * RESERVATIONS *
+	 ****************/
 	public Quote createQuote(ReservationConstraints constraints, String client) throws RemoteException, ReservationException;
 	
 	
@@ -35,12 +47,11 @@ public interface ICarRentalCompany extends Remote {
 	public List<Reservation> getReservationsByRenter(String clientName) throws RemoteException;
 	
 	public int getNumberOfReservationsForCarType(String carType) throws RemoteException;
+	public int getNumberOfReservationsForCarType(String carType, int year) throws RemoteException;
 	
-	
-	
-	
-
-
-
+	/************
+	 * Clients *
+	 ************/
+	public Set<String> getClients();
 	
 }

@@ -85,9 +85,18 @@ public class ReservationSession extends Session implements IReservationSession {
 
 
 	@Override
-	public String getCheapestCarType() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCheapestCarType() throws RemoteException {
+		String cheapestCarType = "";
+		double lowestRentalPricePerDay = Double.MAX_VALUE;
+		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies().values()) {
+			for(CarType carType : crc.getAllCarTypes()) {				
+				if (lowestRentalPricePerDay > carType.getRentalPricePerDay()) {
+					lowestRentalPricePerDay = carType.getRentalPricePerDay();
+					cheapestCarType = carType.getName();
+				}
+			}
+		}
+		return cheapestCarType;
 	}
 
 
@@ -106,6 +115,8 @@ public class ReservationSession extends Session implements IReservationSession {
         throw new ReservationException("An Exception ocurred");
 		
 	}
+	
+	
 
 
 	@Override

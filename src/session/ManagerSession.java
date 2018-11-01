@@ -3,6 +3,7 @@ package session;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Set;
 import carRentalCompany.CarRentalCompany;
 import carRentalCompany.CarType;
 import carRentalCompany.ICarRentalCompany;
+import carRentalCompany.Reservation;
 import namingService.INamingService;
 
 public class ManagerSession extends Session implements IManagerSession {
@@ -72,23 +74,52 @@ public class ManagerSession extends Session implements IManagerSession {
 
 
 	@Override
-	public Set<String> getBestClients() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<String> getBestClients() throws RemoteException {
+		Map<String, Integer> clientsNbOfReservations = new HashMap<String, Integer>();
+		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies().values()) {
+			for(String client : crc.getClients()) {
+				if(clientsNbOfReservations.containsKey(client)) {
+					clientsNbOfReservations.put(client, clientsNbOfReservations.get(client)+crc.getReservationsByRenter(client).size());
+				} else {
+					clientsNbOfReservations.put(client, crc.getReservationsByRenter(client).size());
+				}
+			}
+		}
+		int maxNbReservations = Collections.max(clientsNbOfReservations.values());
+		Set<String> bestClients = new HashSet<String>();
+		for (String c : clientsNbOfReservations.keySet()) {
+			if (clientsNbOfReservations.get(c) == maxNbReservations)
+				bestClients.add(c);
+		}
+		return bestClients;
 	}
 
 
 	@Override
-	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) {
-		// TODO Auto-generated method stub
-		return null;
+	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) throws RemoteException {
+		ICarRentalCompany crc = this.getNamingService().getAllRegisteredCompanies().get(carRentalCompanyName);
+		int mostReservations = 0;
+		CarType mostPopularCarType = null;
+		for (CarType ct : crc.getAllCarTypes()) {
+			if (crc.getNumberOfReservationsForCarType(ct.getName(), year)>mostReservations) {
+				mostReservations = crc.getNumberOfReservationsForCarType(ct.getName(), year);
+				mostPopularCarType = ct;
+			}
+		}
+		return mostPopularCarType;
 	}
 
 
 	@Override
-	public int getNumberOfReservationsBy(String clientName) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getNumberOfReservationsBy(String clientName) throws RemoteException {
+		int numberOfReservations = 0;
+        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies().values(); 
+        for (ICarRentalCompany crc : rentalCompanies) {
+        	List<Reservation> toAdd = crc.getReservationsByRenter(clientName);
+        	numberOfReservations += toAdd.size();
+        	
+        }
+        return numberOfReservations;
 	}
 
 

@@ -1,6 +1,7 @@
 package carRentalCompany;
 
 import java.rmi.RemoteException;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -199,6 +200,31 @@ public class CarRentalCompany implements ICarRentalCompany {
 				count += car.getNumberOfReservations();
 		}
 		return count;
+	}
+	
+	public int getNumberOfReservationsForCarType(String carType, int year) throws RemoteException {
+		int count = 0;
+		try {
+			for (Car car : this.cars) {
+				if (car.isCarType(carType))
+					count += car.getNumberOfReservationsInYear(year);
+			}
+		} catch (ParseException e) {
+			throw new RemoteException("Error in date"); //TODO mag dit??
+		}
+		return count;
+	}
+	
+	/************
+	 * Clients *
+	 ************/
+	public Set<String> getClients() {
+		Set<String> clients = new HashSet<String>();
+		for (Car c : this.cars) {
+			for (Reservation r : c.getReservations())
+				clients.add(r.getCarRenter());
+		}
+		return clients;
 	}
 	
 }

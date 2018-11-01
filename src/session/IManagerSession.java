@@ -22,11 +22,11 @@ public interface IManagerSession extends Remote {
     
     String getBestCustomer();
 	
-	Set<String> getBestClients();
+	Set<String> getBestClients() throws RemoteException;
 	
-	CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year);
+	CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) throws RemoteException;
 	
-    int getNumberOfReservationsBy(String clientName);
+    int getNumberOfReservationsBy(String clientName) throws RemoteException;
     int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException;
 	
 	

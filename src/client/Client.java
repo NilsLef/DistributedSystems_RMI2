@@ -14,8 +14,11 @@ import java.util.StringTokenizer;
 import carRentalAgency.ICarRentalAgency;
 import carRentalCompany.ICarRentalCompany;
 import carRentalCompany.Quote;
+import namingService.INamingService;
 import session.IManagerSession;
 import session.IReservationSession;
+import session.ManagerSession;
+import session.ReservationSession;
 import carRentalCompany.CarType;
 
 
@@ -43,6 +46,8 @@ public class Client extends AbstractTestManagement {
 	 * A private variable registering the car rental company
 	 */
 	private ICarRentalAgency cra;
+	
+	INamingService ns;
 	
 	/**
 	 * Return the car rental company of this client
@@ -92,12 +97,14 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected Object getNewReservationSession(String name) throws Exception {
-		return null;
+		return null; //TODO
+		//return new ReservationSession(null, name, name); //TODO!!!
 	}
 
 	@Override
 	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
-		return null;
+		return null; //TODO
+		//return new ManagerSession(null, carRentalName, carRentalName); //TODO!!!
 	}
 
 	@Override
