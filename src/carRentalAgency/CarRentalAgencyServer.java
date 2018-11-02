@@ -36,7 +36,6 @@ public class CarRentalAgencyServer {
 				ex.printStackTrace();
 			}
 			return null;
-			
 		}
 
 

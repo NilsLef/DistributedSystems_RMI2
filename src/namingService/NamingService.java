@@ -10,10 +10,13 @@ public class NamingService implements INamingService {
 
 	public Map<String, ICarRentalCompany> allRegisteredCompanies = new HashMap<String, ICarRentalCompany>();
 
+	
+	/*****************
+	 * REGISTRATIONS *
+	 *****************/
 	@Override
 	public void register(String companyName, ICarRentalCompany company) throws RemoteException {
 		allRegisteredCompanies.put(companyName, company);
-		
 	}
 
 	@Override
@@ -21,6 +24,9 @@ public class NamingService implements INamingService {
 		allRegisteredCompanies.remove(companyName);
 	}
 
+	/***********
+	 * GETTERS *
+	 ***********/
 	@Override
 	public Collection<ICarRentalCompany> getAllRegisteredCompanies() throws RemoteException {
 		return new ArrayList<ICarRentalCompany>(this.allRegisteredCompanies.values());
@@ -35,6 +41,9 @@ public class NamingService implements INamingService {
 
 	}
 	
+	/**********
+	 * TESTER *
+	 **********/
 	public boolean doesCompanyExist(String companyName) throws RemoteException {
 		if (allRegisteredCompanies.containsKey(companyName)) {
 			return true;

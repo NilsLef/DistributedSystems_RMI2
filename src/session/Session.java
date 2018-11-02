@@ -10,13 +10,18 @@ public abstract class Session {
 	protected Date creationDate;
 	protected INamingService namingService;
 	
-
+	/***************
+	 * CONSTRUCTOR *
+	 ***************/
 	public Session(INamingService ns, String sID) {
 		this.namingService = ns;
 		this.sessionID = sID;
 		this.creationDate = new Date();
 	}
 	
+	/***********
+	 * GETTERS *
+	 ***********/
 	public INamingService getNamingService() {
 		return this.namingService;
 	}

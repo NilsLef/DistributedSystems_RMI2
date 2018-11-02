@@ -18,38 +18,50 @@ import namingService.INamingService;
 
 public class ManagerSession extends Session implements IManagerSession {
 	
-	private String clientName;
+	/***************
+	 * CONSTRUCTOR *
+	 ***************/
+		private String clientName;
 
 	public ManagerSession(INamingService ns, String cName, String sID) {
 		super(ns, sID);
 		this.clientName = cName;
 	}
 
-	//copied
-	public ManagerSession(INamingService namingService, String sessionId) {
-		super(namingService, sessionId);
-	}
 
+	/************
+	 * CARTYPES *
+	 ************/
     @Override
     public List<CarType> getAllCarTypes(String crcName) throws RemoteException {
         return new ArrayList<CarType>(getNamingService().getRegisteredCompany(crcName).getAllCarTypes());
     }
 
-    @Override
-    public Integer nbOfReservations(String crcName, String carType) throws RemoteException {
-        return this.getNamingService().getRegisteredCompany(crcName).getNumberOfReservationsForCarType(carType);
-    }
+    /*****************************
+	 * NUMBER OF RESERVATIONS BY *
+	 *****************************/
     
-    @Override 
-    public Integer nbOfReservationsBy(String carRenter) throws RemoteException {
-        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies();
-        Integer amount = 0;
-        for ( ICarRentalCompany crc : rentalCompanies) {
-            amount += crc.getReservationsByRenter(carRenter).size();
+    @Override
+	public int getNumberOfReservationsBy(String clientName) throws RemoteException {
+		int numberOfReservations = 0;
+        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies(); 
+        for (ICarRentalCompany crc : rentalCompanies) {
+        	List<Reservation> toAdd = crc.getReservationsByRenter(clientName);
+        	numberOfReservations += toAdd.size();
+        	
         }
-        return amount;
-    }
+        return numberOfReservations;
+	}
 
+
+	@Override
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException {
+		return this.getNamingService().getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
+	}
+	
+	/*********************
+	 * BEST/MOST POPULAR *
+	 *********************/
     @Override
     public String getBestCustomer() throws RemoteException {       
         String bestCustomer = "";
@@ -75,7 +87,6 @@ public class ManagerSession extends Session implements IManagerSession {
         return bestCustomer;
         
     }
-
 
 	@Override
 	public Set<String> getBestClients() throws RemoteException {
@@ -114,30 +125,16 @@ public class ManagerSession extends Session implements IManagerSession {
 	}
 
 
-	@Override
-	public int getNumberOfReservationsBy(String clientName) throws RemoteException {
-		int numberOfReservations = 0;
-        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies(); 
-        for (ICarRentalCompany crc : rentalCompanies) {
-        	List<Reservation> toAdd = crc.getReservationsByRenter(clientName);
-        	numberOfReservations += toAdd.size();
-        	
-        }
-        return numberOfReservations;
-	}
-
-
-	@Override
-	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException {
-		return this.getNamingService().getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
-		//return this.namingService.getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
-	}
-
 	
-	//Copied
-	public void registerCarRentalCompany(String carRentalCompanyName,
-			ICarRentalCompany carRentalCompany) throws RemoteException {
-		namingService.register(carRentalCompanyName, carRentalCompany);
+
+	/********************************
+	 * REGISTRATION RENTALCOMPANIES *
+	 ********************************/
+	public void registerCRC(String crcName, ICarRentalCompany crc) throws RemoteException {
+		namingService.register(crcName, crc);
 	}
 	
+	public void unregisterCRC(String crcName) throws RemoteException {
+		namingService.unRegisterCompany(crcName);
+	}
 }

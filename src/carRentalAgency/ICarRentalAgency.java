@@ -17,8 +17,6 @@ public interface ICarRentalAgency extends Remote {
 	
 	public void terminateManagerSession(String id) throws RemoteException;
 	
-	//Copied
-	public IManagerSession getManagerSession(String sessionId) throws RemoteException;
 
 
 }
