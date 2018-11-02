@@ -120,7 +120,7 @@ public class ReservationSession extends Session implements IReservationSession {
 
 
 	@Override
-	public List<Quote> confirmQuotes(String name) throws ReservationException, RemoteException {
+	public List<Reservation> confirmQuotes(String name) throws ReservationException, RemoteException {
         Map<Reservation, ICarRentalCompany> confirmedRes = new HashMap<Reservation, ICarRentalCompany>();
         try {
             for (Map.Entry<Quote, ICarRentalCompany> quote : this.allQuotes.entrySet()) {
@@ -135,7 +135,8 @@ public class ReservationSession extends Session implements IReservationSession {
         }
         this.allQuotes = new HashMap<Quote, ICarRentalCompany>();
         //return new ArrayList<Reservation>(confirmedRes.keySet()); ??
-        return null;
+        List<Reservation> result = new ArrayList<Reservation>(confirmedRes.keySet());
+        return result;
 	}
 
 
