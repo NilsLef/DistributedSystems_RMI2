@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import carRentalAgency.CarRentalAgencyServer;
 import carRentalAgency.ICarRentalAgency;
 import carRentalCompany.Reservation;
 import namingService.INamingService;
@@ -23,29 +24,26 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 	 * MAIN *
 	 ********/
 	
+	public static final String connection = "0.0.0.0";
+	
 	public static void main(String[] args) throws Exception {
-
-		System.setSecurityManager(null);
-    	System.setProperty("java.rmi.server.hostname","0.0.0.0");
+    	System.setProperty("java.rmi.server.hostname",connection);
     	//CarRentalAgencyServer.main(new String[] {});
-
-    	Registry r = LocateRegistry.getRegistry("0.0.0.0");
+    	Registry r = LocateRegistry.getRegistry(connection);
     	ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
-		
-    	
     	Client client = new Client("trips", carRentalAgency);
     	
-    	List<Car> cars = CarRentalCompanyServer.loadData("hertz.csv");
-    	ICarRentalCompany company1 = CarRentalCompanyServer.serverSetUp("Hertz", cars);
-    	cars = CarRentalCompanyServer.loadData("dockx.csv");
-    	ICarRentalCompany company2 = CarRentalCompanyServer.serverSetUp("Dockx", cars);
+    	ICarRentalCompany company1 = CarRentalCompanyServer.serverSetUp("hertz.csv");
+    	ICarRentalCompany company2 = CarRentalCompanyServer.serverSetUp("dockx.csv");
     	//CarRentalCompanyServer.main(new String[] {});
-    	IManagerSession manSess = client.getNewManagerSession("manager", "carRentalAgency");
+    	
+    	IManagerSession manSess = client.cra.createManagerSession("setup");
     	manSess.registerCRC("Hertz", company1);
     	manSess.registerCRC("Dockx", company2);
-    	
+
 
 		client.run();
+		
 	}
 
 	
@@ -59,7 +57,6 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 	 */
 	private ICarRentalAgency cra;
 	
-	INamingService ns;
 	
 
 	
@@ -90,11 +87,12 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 		return cra.createManagerSession("Man_"+name, name);
 	}
 	
+	
+	
 
 	/***************
 	 * RESERVATION *
 	 ***************/
-
 	@Override
 	protected void checkForAvailableCarTypes(IReservationSession session, Date start, Date end) throws Exception {
 		session.getAvailableCarTypes(start, end);
@@ -114,7 +112,6 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 	/***********
 	 * MANAGER *
 	 ***********/
-	
 
 	@Override
 	protected Set<String> getBestClients(IManagerSession ms) throws Exception {
@@ -141,5 +138,7 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 	protected int getNumberOfReservationsForCarType(IManagerSession ms, String carRentalName, String carType) throws Exception {
 		return ms.getNumberOfReservationsForCarType(carRentalName, carType);	
 	}
+	
+	
 
 }

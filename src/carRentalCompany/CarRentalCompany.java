@@ -38,7 +38,6 @@ public class CarRentalCompany implements ICarRentalCompany {
 		logger.log(Level.INFO, this.toString());
 	}
 	
-	//Copied
 	public CarRentalCompany(String name, List<Car> cars) {
 		logger.log(Level.INFO, "<{0}> Car Rental Company {0} starting up...", name);
 		setName(name);
@@ -60,7 +59,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
     /***********
-     * Regions *
+     * REGIONS *
      **********/
     private void setRegions(List<String> regions) {
         this.regions = regions;
@@ -88,7 +87,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		throw new IllegalArgumentException("<" + carTypeName + "> No car type of name " + carTypeName);
 	}
 	
-	// mark
+
 	public boolean isAvailable(String carTypeName, Date start, Date end) {
 		logger.log(Level.INFO, "<{0}> Checking availability for car type {1}", new Object[]{name, carTypeName});
 		if(carTypes.containsKey(carTypeName)) {
@@ -157,7 +156,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 						/ (1000 * 60 * 60 * 24D));
 	}
 
-	public Reservation confirmQuote(Quote quote) throws ReservationException {
+	public synchronized Reservation confirmQuote(Quote quote) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Reservation of {1}", new Object[]{name, quote.toString()});
 		List<Car> availableCars = getAvailableCars(quote.getCarType(), quote.getStartDate(), quote.getEndDate());
 		if(availableCars.isEmpty())
@@ -170,7 +169,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		return res;
 	}
 
-	public void cancelReservation(Reservation res) {
+	public synchronized void cancelReservation(Reservation res) {
 		logger.log(Level.INFO, "<{0}> Cancelling reservation {1}", new Object[]{name, res.toString()});
 		getCar(res.getCarId()).removeReservation(res);
 	}
@@ -207,8 +206,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		int count = 0;
 		for (Car car : this.cars) {
 			if (car.isCarType(carType))
-				return car.getNumberOfReservations();
-				//count += car.getNumberOfReservations();
+				count += car.getNumberOfReservations();
 		}
 		return count;
 	}
@@ -221,13 +219,13 @@ public class CarRentalCompany implements ICarRentalCompany {
 					count += car.getNumberOfReservationsInYear(year);
 			}
 		} catch (ParseException e) {
-			throw new RemoteException("Error in date"); //TODO mag dit??
+			throw new RemoteException("Error in date"); 
 		}
 		return count;
 	}
 	
 	/************
-	 * Clients *
+	 * CLIENTS *
 	 ************/
 	public Set<String> getClients() {
 		Set<String> clients = new HashSet<String>();

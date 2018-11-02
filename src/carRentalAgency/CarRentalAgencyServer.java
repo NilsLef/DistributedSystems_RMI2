@@ -9,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import carRentalCompany.ReservationException;
+import client.Client;
 import namingService.INamingService;
 import namingService.namingServiceServer;
 
@@ -16,7 +17,7 @@ public class CarRentalAgencyServer {
 			
 		public static void main(String[] args) throws ReservationException , NumberFormatException, IOException {
 			System.setSecurityManager(null);
-			System.setProperty("java.rmi.server.hostname","0.0.0.0");
+			System.setProperty("java.rmi.server.hostname",Client.connection);
 			namingServiceServer.main(new String[] {});
 			ICarRentalAgency carRentalAgency = new CarRentalAgency(createNamingService());
 			ICarRentalAgency stub = (ICarRentalAgency) UnicastRemoteObject.exportObject(carRentalAgency,0);
@@ -29,7 +30,7 @@ public class CarRentalAgencyServer {
 		private static INamingService createNamingService() {
 			System.setSecurityManager(null);
 			try {
-				Registry r = LocateRegistry.getRegistry("0.0.0.0");
+				Registry r = LocateRegistry.getRegistry(Client.connection);
 				INamingService ns = (INamingService) r.lookup("namingservice");
 				return ns; 
 			} catch (NotBoundException | RemoteException ex) {

@@ -21,7 +21,7 @@ public class ReservationSession extends Session implements IReservationSession {
 	private Map<Quote, ICarRentalCompany> allQuotes = new HashMap<Quote, ICarRentalCompany>();
 	private String clientName;
 	
-	public ReservationSession(INamingService ns, String cName, String sID) {
+	public ReservationSession(INamingService ns, String sID, String cName) {
 		super(ns, sID);
 		this.clientName = cName;
 	}
@@ -34,8 +34,8 @@ public class ReservationSession extends Session implements IReservationSession {
 	}
 
     @Override
-    public Collection<ICarRentalCompany> getAllRentalCompanies() throws RemoteException {
-        return namingService.getAllRegisteredCompanies();
+    public Set<ICarRentalCompany> getAllRentalCompanies() throws RemoteException {
+        return new HashSet<ICarRentalCompany>(namingService.getAllRegisteredCompanies());
     }
     
 	/**********
@@ -43,7 +43,7 @@ public class ReservationSession extends Session implements IReservationSession {
 	 **********/
     @Override
     public void createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException {
-        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies()) {
+        for (ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies()) {
             try {
                 Quote quote = crc.createQuote(constraint, carRenter);
                 this.allQuotes.put(quote, crc);
@@ -51,7 +51,8 @@ public class ReservationSession extends Session implements IReservationSession {
                 System.out.println("Reservation exception was thrown");
             }
         }
-        throw new ReservationException("An Exception ocurred");
+        if (this.allQuotes.isEmpty())
+        	throw new ReservationException("An Exception ocurred: no Quote could be created");
         
     }
     
@@ -128,5 +129,7 @@ public class ReservationSession extends Session implements IReservationSession {
 		return cheapestCarType;
 	}
 
+
+	
 
 }

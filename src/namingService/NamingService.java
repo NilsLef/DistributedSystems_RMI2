@@ -15,12 +15,12 @@ public class NamingService implements INamingService {
 	 * REGISTRATIONS *
 	 *****************/
 	@Override
-	public void register(String companyName, ICarRentalCompany company) throws RemoteException {
+	public synchronized void register(String companyName, ICarRentalCompany company) throws RemoteException {
 		allRegisteredCompanies.put(companyName, company);
 	}
 
 	@Override
-	public void unRegisterCompany(String companyName) throws RemoteException {
+	public synchronized void unRegisterCompany(String companyName) throws RemoteException {
 		allRegisteredCompanies.remove(companyName);
 	}
 

@@ -7,11 +7,12 @@ import session.IManagerSession;
 import session.IReservationSession;
 
 public interface ICarRentalAgency extends Remote {
-	
+
 	
 	public IReservationSession createReservationSession(String id, String clientName) throws RemoteException;
 	
 	public IManagerSession createManagerSession(String id, String clientName) throws RemoteException;
+	public IManagerSession createManagerSession(String id) throws RemoteException;
 	
 	public void terminateReservationSession(String id) throws RemoteException;
 	

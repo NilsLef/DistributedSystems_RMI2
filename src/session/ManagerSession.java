@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import carRentalCompany.CarRentalCompany;
 import carRentalCompany.CarType;
 import carRentalCompany.ICarRentalCompany;
 import carRentalCompany.Reservation;
@@ -21,13 +20,17 @@ public class ManagerSession extends Session implements IManagerSession {
 	/***************
 	 * CONSTRUCTOR *
 	 ***************/
-		private String clientName;
+	private String clientName;
 
-	public ManagerSession(INamingService ns, String cName, String sID) {
+	public ManagerSession(INamingService ns, String sID, String cName) {
 		super(ns, sID);
 		this.clientName = cName;
 	}
-
+	
+	//copied
+		public ManagerSession(INamingService namingService, String sessionId) {
+			super(namingService, sessionId);
+		}
 
 	/************
 	 * CARTYPES *
@@ -131,10 +134,11 @@ public class ManagerSession extends Session implements IManagerSession {
 	 * REGISTRATION RENTALCOMPANIES *
 	 ********************************/
 	public void registerCRC(String crcName, ICarRentalCompany crc) throws RemoteException {
-		namingService.register(crcName, crc);
+		this.namingService.register(crcName, crc);
 	}
 	
 	public void unregisterCRC(String crcName) throws RemoteException {
-		namingService.unRegisterCompany(crcName);
+		this.namingService.unRegisterCompany(crcName);
 	}
+	
 }

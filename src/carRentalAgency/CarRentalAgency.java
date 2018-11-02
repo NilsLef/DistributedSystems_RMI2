@@ -20,8 +20,12 @@ public class CarRentalAgency implements ICarRentalAgency {
 	private Map<String, ManagerSession> managerSessions = new HashMap<String, ManagerSession>();
 	
 	private final INamingService namingService;
+	
 
 	public CarRentalAgency(INamingService ns) {
+		if (ns == null) {
+			throw new IllegalArgumentException();
+		}
 		this.namingService = ns;
 	}
 	
@@ -32,6 +36,8 @@ public class CarRentalAgency implements ICarRentalAgency {
 
 	@Override
 	public IReservationSession createReservationSession(String id, String clientName) throws RemoteException {
+		if (id == null || clientName == null)
+			throw new IllegalArgumentException();
 		IReservationSession s = this.reservationSessions.get(id);
 		if (s != null)
 			return s;
@@ -44,11 +50,28 @@ public class CarRentalAgency implements ICarRentalAgency {
 
 	@Override
 	public IManagerSession createManagerSession(String id, String clientName) throws RemoteException {
+		if (id == null || clientName == null)
+			throw new IllegalArgumentException();
 		IManagerSession s = this.managerSessions.get(id);
 		if (s != null)
 			return s;
 		else {
 			ManagerSession newSession = new ManagerSession(this.namingService, id, clientName);
+			this.managerSessions.put(id, newSession);
+			return (IManagerSession) UnicastRemoteObject.exportObject(newSession, 0);
+		}
+		
+	}
+	
+	@Override
+	public IManagerSession createManagerSession(String id) throws RemoteException {
+		if (id == null)
+			throw new IllegalArgumentException();
+		IManagerSession s = this.managerSessions.get(id);
+		if (s != null)
+			return s;
+		else {
+			ManagerSession newSession = new ManagerSession(this.namingService, id);
 			this.managerSessions.put(id, newSession);
 			return (IManagerSession) UnicastRemoteObject.exportObject(newSession, 0);
 		}
@@ -89,5 +112,8 @@ public class CarRentalAgency implements ICarRentalAgency {
 				terminateReservationSession(temp.getSessionID());
 		}
 	}
+
+
+
 
 }
