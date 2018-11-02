@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import carRentalAgency.CarRentalAgencyServer;
 import carRentalAgency.ICarRentalAgency;
 import carRentalCompany.ICarRentalCompany;
 import carRentalCompany.Quote;
@@ -31,9 +32,16 @@ public class Client extends AbstractTestManagement {
 	public static void main(String[] args) throws Exception {
 
 		System.setSecurityManager(null);
-		Registry r = LocateRegistry.getRegistry();
-		ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
-		Client client = new Client("simpleTrips", carRentalAgency);
+    	System.setProperty("java.rmi.server.hostname","0.0.0.0");
+    	CarRentalAgencyServer.main(new String[] {});
+
+    	Registry r = LocateRegistry.getRegistry("0.0.0.0");
+    	ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
+		
+    	
+    	Client client = new Client("trips", carRentalAgency);
+    	
+
 		client.run();
 	}
 	

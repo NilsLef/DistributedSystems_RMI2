@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+
 public class CarRentalCompany implements ICarRentalCompany {
 
 	private static Logger logger = Logger.getLogger(CarRentalCompany.class.getName());
@@ -35,6 +36,15 @@ public class CarRentalCompany implements ICarRentalCompany {
 		for(Car car:cars)
 			carTypes.put(car.getType().getName(), car.getType());
 		logger.log(Level.INFO, this.toString());
+	}
+	
+	//Copied
+	public CarRentalCompany(String name, List<Car> cars) {
+		logger.log(Level.INFO, "<{0}> Car Rental Company {0} starting up...", name);
+		setName(name);
+		this.cars = cars;
+		for(Car car:cars)
+			carTypes.put(car.getType().getName(), car.getType());
 	}
 
 	/********
