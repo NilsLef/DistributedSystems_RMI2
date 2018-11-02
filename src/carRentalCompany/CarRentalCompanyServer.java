@@ -15,15 +15,10 @@ import java.util.StringTokenizer;
 public class CarRentalCompanyServer {
 
 	public static void main(String[] args) throws ReservationException, IOException {
-       // System.setSecurityManager(null);
-		//System.setProperty("java.rmi.server.hostname",Client.connection);
-		
 		CrcData data = loadData("hertz.csv");
 		serverSetUp(data.name, data.cars, data.regions);
 		data = loadData("dockx.csv");
 		serverSetUp(data.name, data.cars, data.regions);
-		
-		//System.out.println("CarRentalCompanyServers are ready for action!");
 	}
 	
 	public static ICarRentalCompany serverSetUp(String companyName, List<Car> cars, List<String> regions) {

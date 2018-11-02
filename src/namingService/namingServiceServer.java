@@ -13,7 +13,7 @@ public class namingServiceServer {
 		INamingService ns = (INamingService) new NamingService();
         INamingService stub = (INamingService) UnicastRemoteObject.exportObject(ns, 0);
 
-		Registry r = LocateRegistry.getRegistry();//Client.connection);
+		Registry r = LocateRegistry.getRegistry();
 		r.rebind("namingservice", stub);
 		System.out.println("NamingService ready for action!");
 	}

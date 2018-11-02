@@ -25,16 +25,15 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 	
 	public static void main(String[] args) throws Exception {
     	System.setProperty("java.rmi.server.hostname",connection);
-    	//CarRentalAgencyServer.main(new String[] {});
+
     	Registry r = LocateRegistry.getRegistry(connection);
     	ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
     	Client client = new Client("trips", carRentalAgency);
     	
     	ICarRentalCompany company1 = CarRentalCompanyServer.serverSetUp("hertz.csv");
     	ICarRentalCompany company2 = CarRentalCompanyServer.serverSetUp("dockx.csv");
-    	//CarRentalCompanyServer.main(new String[] {});
     	
-    	IManagerSession manSess = client.cra.createManagerSession("setup");
+    	IManagerSession manSess = client.cra.createManagerSession("setup","Owner");
     	manSess.registerCRC("Hertz", company1);
     	manSess.registerCRC("Dockx", company2);
 

@@ -27,10 +27,6 @@ public class ManagerSession extends Session implements IManagerSession {
 		this.clientName = cName;
 	}
 	
-	//copied
-		public ManagerSession(INamingService namingService, String sessionId) {
-			super(namingService, sessionId);
-		}
 
 	/************
 	 * CARTYPES *

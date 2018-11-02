@@ -63,19 +63,6 @@ public class CarRentalAgency implements ICarRentalAgency {
 		
 	}
 	
-	@Override
-	public IManagerSession createManagerSession(String id) throws RemoteException {
-		if (id == null)
-			throw new IllegalArgumentException();
-		IManagerSession s = this.managerSessions.get(id);
-		if (s != null)
-			return s;
-		else {
-			ManagerSession newSession = new ManagerSession(this.namingService, id);
-			this.managerSessions.put(id, newSession);
-			return (IManagerSession) UnicastRemoteObject.exportObject(newSession, 0);
-		}
-	}
 
 	@Override
 	public void terminateReservationSession(String id) {
