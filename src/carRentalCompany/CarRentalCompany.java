@@ -207,7 +207,8 @@ public class CarRentalCompany implements ICarRentalCompany {
 		int count = 0;
 		for (Car car : this.cars) {
 			if (car.isCarType(carType))
-				count += car.getNumberOfReservations();
+				return car.getNumberOfReservations();
+				//count += car.getNumberOfReservations();
 		}
 		return count;
 	}

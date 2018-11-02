@@ -14,12 +14,14 @@ public class CarRentalCompanyServer {
 	//TODO copied
 	public static void main(String[] args)
 			throws ReservationException, NumberFormatException, IOException {
-		System.setProperty("java.rmi.server.hostname","0.0.0.0");
+		//System.setProperty("java.rmi.server.hostname","0.0.0.0");
 		
 		List<Car> cars = loadData("hertz.csv");
 		serverSetUp("Hertz", cars);
 		cars = loadData("dockx.csv");
 		serverSetUp("Dockx", cars);
+		
+		System.out.println("CarRentalCompanyServers are ready for action!");
 	}
 	
 	//Copied TODO
@@ -58,7 +60,7 @@ public class CarRentalCompanyServer {
         return rentals;
     }
 */
-	/*
+	
 	 public static List<Car> loadData(String datafile) throws NumberFormatException, IOException {
 
 		 	List<Car> cars = new LinkedList<Car>();
@@ -98,10 +100,10 @@ public class CarRentalCompanyServer {
 	        }
 
 	        return cars;
-	    }*/
+	    }
 	
 	//Copied
-	public static List<Car> loadData(String datafile)
+	/*public static List<Car> loadData(String datafile)
 			throws ReservationException, NumberFormatException, IOException {
 
 		List<Car> cars = new LinkedList<Car>();
@@ -135,6 +137,6 @@ public class CarRentalCompanyServer {
 		in.close();
 		
 		return cars;
-	}
+	}*/
 
 }

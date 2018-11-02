@@ -1,27 +1,23 @@
 package client;
 
-import java.rmi.NotBoundException;
 
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import carRentalAgency.CarRentalAgencyServer;
 import carRentalAgency.ICarRentalAgency;
-import carRentalCompany.ICarRentalCompany;
-import carRentalCompany.Quote;
 import carRentalCompany.Reservation;
 import namingService.INamingService;
 import session.IManagerSession;
 import session.IReservationSession;
-import session.ManagerSession;
-import session.ReservationSession;
+import carRentalCompany.Car;
+import carRentalCompany.CarRentalCompanyServer;
 import carRentalCompany.CarType;
+import carRentalCompany.ICarRentalCompany;
 
 
 public class Client extends AbstractTestManagement<IReservationSession, IManagerSession> {
@@ -34,7 +30,7 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 
 		System.setSecurityManager(null);
     	System.setProperty("java.rmi.server.hostname","0.0.0.0");
-    	CarRentalAgencyServer.main(new String[] {});
+    	//CarRentalAgencyServer.main(new String[] {});
 
     	Registry r = LocateRegistry.getRegistry("0.0.0.0");
     	ICarRentalAgency carRentalAgency = (ICarRentalAgency) r.lookup("carRentalAgency");
@@ -42,6 +38,16 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
     	
     	Client client = new Client("trips", carRentalAgency);
     	
+    	List<Car> cars = CarRentalCompanyServer.loadData("hertz.csv");
+    	ICarRentalCompany company1 = CarRentalCompanyServer.serverSetUp("Hertz", cars);
+    	cars = CarRentalCompanyServer.loadData("dockx.csv");
+    	ICarRentalCompany company2 = CarRentalCompanyServer.serverSetUp("Dockx", cars);
+    	CarRentalCompanyServer.main(new String[] {});
+    	//IManagerSession ms = client.getNewManagerSession("manager", "carRentalAgency");
+    	
+    	
+    	
+    	//System.out.println("Client is ready for action!");
 
 		client.run();
 	}

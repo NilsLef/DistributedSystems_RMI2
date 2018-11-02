@@ -106,14 +106,13 @@ public class ReservationSession extends Session implements IReservationSession {
 		ReservationConstraints constraint = new ReservationConstraints(start, end, carType, region);
         for (ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies()) {
             try {
-                Quote quote = crc.createQuote(constraint, "Charles"); //"TODO"
+                Quote quote = crc.createQuote(constraint, this.getClientName());
                 this.allQuotes.put(quote, crc);
-                //return quote; ??
-            } catch (ReservationException exc) {
-                System.out.println("Reservation exception was thrown");
+            } catch (Exception exc) {
+                throw new ReservationException("An Exception ocurred in adding a Quote to the sessions");
             }
         }
-        throw new ReservationException("An Exception ocurred");
+
 		
 	}
 	

@@ -28,7 +28,11 @@ public class NamingService implements INamingService {
 
 	@Override
 	public ICarRentalCompany getRegisteredCompany(String companyName) throws RemoteException {
-		return allRegisteredCompanies.get(companyName);
+		if (allRegisteredCompanies.containsKey(companyName))
+			return allRegisteredCompanies.get(companyName);
+		else
+			throw new IllegalArgumentException(companyName + " doesn't exist in NamingService.");
+
 	}
 	
 	public boolean doesCompanyExist(String companyName) throws RemoteException {

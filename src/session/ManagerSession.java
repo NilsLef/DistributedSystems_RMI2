@@ -126,6 +126,7 @@ public class ManagerSession extends Session implements IManagerSession {
 	@Override
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException {
 		return this.getNamingService().getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
+		//return this.namingService.getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
 	}
 
 
