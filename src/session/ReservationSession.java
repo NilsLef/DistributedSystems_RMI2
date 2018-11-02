@@ -24,7 +24,7 @@ public class ReservationSession extends Session implements IReservationSession {
 		this.clientName = cName;
 	}
     
-	public String getClientName() {
+	public String getClientName() throws RemoteException {
 		return this.clientName;
 	}
 
@@ -70,7 +70,7 @@ public class ReservationSession extends Session implements IReservationSession {
         return new ArrayList<Reservation>(confirmedRes.keySet());
     }
     
-    @Override
+    //TODO DUBBEL???
     public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
         Set<CarType>  availableCarTypes = new HashSet<CarType>();
         for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies()) {
