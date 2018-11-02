@@ -20,7 +20,7 @@ public interface IManagerSession extends Remote {
     
     
     
-    String getBestCustomer();
+    String getBestCustomer() throws RemoteException;
 	
 	Set<String> getBestClients() throws RemoteException;
 	

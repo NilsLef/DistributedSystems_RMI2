@@ -2,6 +2,7 @@ package session;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,13 +29,13 @@ public class ReservationSession extends Session implements IReservationSession {
 	}
 
     @Override
-    public Set<String> getAllRentalCompanies() {
-        return namingService.getAllRegisteredCompanies().keySet();
+    public Collection<ICarRentalCompany> getAllRentalCompanies() throws RemoteException {
+        return namingService.getAllRegisteredCompanies();
     }
     
     @Override
     public void createQuote(ReservationConstraints constraint, String carRenter) throws ReservationException, RemoteException {
-        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
+        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies()) {
             try {
                 Quote quote = crc.createQuote(constraint, carRenter);
                 this.allQuotes.put(quote, crc);
@@ -72,7 +73,7 @@ public class ReservationSession extends Session implements IReservationSession {
     @Override
     public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
         Set<CarType>  availableCarTypes = new HashSet<CarType>();
-        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
+        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies()) {
             availableCarTypes.addAll(crc.getAvailableCarTypes(start, end));
         }
         return availableCarTypes;
@@ -88,7 +89,7 @@ public class ReservationSession extends Session implements IReservationSession {
 	public String getCheapestCarType() throws RemoteException {
 		String cheapestCarType = "";
 		double lowestRentalPricePerDay = Double.MAX_VALUE;
-		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies().values()) {
+		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies()) {
 			for(CarType carType : crc.getAllCarTypes()) {				
 				if (lowestRentalPricePerDay > carType.getRentalPricePerDay()) {
 					lowestRentalPricePerDay = carType.getRentalPricePerDay();
@@ -103,7 +104,7 @@ public class ReservationSession extends Session implements IReservationSession {
 	@Override
 	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) throws ReservationException, RemoteException {
 		ReservationConstraints constraint = new ReservationConstraints(start, end, carType, region);
-        for (ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies().values()) {
+        for (ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies()) {
             try {
                 Quote quote = crc.createQuote(constraint, "Charles"); //"TODO"
                 this.allQuotes.put(quote, crc);
@@ -143,7 +144,7 @@ public class ReservationSession extends Session implements IReservationSession {
 	@Override
 	public void checkForAvailableCarTypes(Date start, Date end) throws RemoteException {
 		Set<CarType>  availableCarTypes = new HashSet<CarType>();
-        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies().values()) {
+        for (ICarRentalCompany crc : namingService.getAllRegisteredCompanies()) {
             availableCarTypes.addAll(crc.getAvailableCarTypes(start, end));
         }
         //return availableCarTypes; ??

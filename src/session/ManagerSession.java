@@ -38,7 +38,7 @@ public class ManagerSession extends Session implements IManagerSession {
     
     @Override 
     public Integer nbOfReservationsBy(String carRenter) throws RemoteException {
-        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies().values();
+        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies();
         Integer amount = 0;
         for ( ICarRentalCompany crc : rentalCompanies) {
             amount += crc.getReservationsByRenter(carRenter).size();
@@ -47,9 +47,9 @@ public class ManagerSession extends Session implements IManagerSession {
     }
 
     @Override
-    public String getBestCustomer() {       
+    public String getBestCustomer() throws RemoteException {       
         String bestCustomer = "";
-        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies().values();
+        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies();
         Map<String, Integer> reservations = new HashMap<String, Integer>();     
         for (ICarRentalCompany crc : rentalCompanies) {
             Map<String, Integer> reservationsByCompany = new HashMap<String, Integer>();
@@ -76,7 +76,7 @@ public class ManagerSession extends Session implements IManagerSession {
 	@Override
 	public Set<String> getBestClients() throws RemoteException {
 		Map<String, Integer> clientsNbOfReservations = new HashMap<String, Integer>();
-		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies().values()) {
+		for(ICarRentalCompany crc : this.getNamingService().getAllRegisteredCompanies()) {
 			for(String client : crc.getClients()) {
 				if(clientsNbOfReservations.containsKey(client)) {
 					clientsNbOfReservations.put(client, clientsNbOfReservations.get(client)+crc.getReservationsByRenter(client).size());
@@ -97,7 +97,7 @@ public class ManagerSession extends Session implements IManagerSession {
 
 	@Override
 	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) throws RemoteException {
-		ICarRentalCompany crc = this.getNamingService().getAllRegisteredCompanies().get(carRentalCompanyName);
+		ICarRentalCompany crc = this.getNamingService().getRegisteredCompany(carRentalCompanyName);
 		int mostReservations = 0;
 		CarType mostPopularCarType = null;
 		for (CarType ct : crc.getAllCarTypes()) {
@@ -113,7 +113,7 @@ public class ManagerSession extends Session implements IManagerSession {
 	@Override
 	public int getNumberOfReservationsBy(String clientName) throws RemoteException {
 		int numberOfReservations = 0;
-        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies().values(); 
+        Collection<ICarRentalCompany> rentalCompanies = this.getNamingService().getAllRegisteredCompanies(); 
         for (ICarRentalCompany crc : rentalCompanies) {
         	List<Reservation> toAdd = crc.getReservationsByRenter(clientName);
         	numberOfReservations += toAdd.size();
