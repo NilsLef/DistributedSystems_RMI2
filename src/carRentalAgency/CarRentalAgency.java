@@ -19,6 +19,25 @@ public class CarRentalAgency implements ICarRentalAgency {
 	public CarRentalAgency(INamingService ns) {
 		this.namingService = ns;
 	}
+	
+	//Copied
+	public IManagerSession getManagerSession(String sessionId)
+			throws RemoteException, IllegalArgumentException {
+		
+		if (sessionId == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		IManagerSession session = this.managerSessions.get(sessionId);
+		
+		if (session != null) {
+			return session;
+		} else {
+			ManagerSession newSession = new ManagerSession(this.namingService, sessionId);
+			this.managerSessions.put(sessionId, newSession);
+			return (IManagerSession) UnicastRemoteObject.exportObject(newSession, 0);
+		}
+	}
 
 	@Override
 	public IReservationSession createReservationSession(String id, String clientName) throws RemoteException {

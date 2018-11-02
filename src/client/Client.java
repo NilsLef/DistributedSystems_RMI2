@@ -43,13 +43,20 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
     	cars = CarRentalCompanyServer.loadData("dockx.csv");
     	ICarRentalCompany company2 = CarRentalCompanyServer.serverSetUp("Dockx", cars);
     	CarRentalCompanyServer.main(new String[] {});
-    	//IManagerSession ms = client.getNewManagerSession("manager", "carRentalAgency");
+    	IManagerSession ms = client.getNewManagerSession("manager");
+		ms.registerCarRentalCompany("Hertz", company1);
+		ms.registerCarRentalCompany("Dockx", company2);
     	
     	
     	
     	//System.out.println("Client is ready for action!");
 
 		client.run();
+	}
+	
+	protected IManagerSession getNewManagerSession(String name)
+			throws Exception {
+		return cra.getManagerSession("manager_" + name);
 	}
 	
 

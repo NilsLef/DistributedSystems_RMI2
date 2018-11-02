@@ -52,6 +52,6 @@ public interface ICarRentalCompany extends Remote {
 	/************
 	 * Clients *
 	 ************/
-	public Set<String> getClients();
+	public Set<String> getClients() throws RemoteException;
 	
 }

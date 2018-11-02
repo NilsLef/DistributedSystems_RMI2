@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import carRentalCompany.CarType;
+import carRentalCompany.ICarRentalCompany;
 
 public interface IManagerSession extends Remote {
 	
@@ -29,6 +30,9 @@ public interface IManagerSession extends Remote {
     int getNumberOfReservationsBy(String clientName) throws RemoteException;
     int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException;
 	
-	
+
+    //Copied
+	public void registerCarRentalCompany(String carRentalCompanyName, ICarRentalCompany carRentalCompany)
+			throws RemoteException;
 
 }

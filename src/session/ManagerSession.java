@@ -25,6 +25,10 @@ public class ManagerSession extends Session implements IManagerSession {
 		this.clientName = cName;
 	}
 
+	//copied
+	public ManagerSession(INamingService namingService, String sessionId) {
+		super(namingService, sessionId);
+	}
 
     @Override
     public List<CarType> getAllCarTypes(String crcName) throws RemoteException {
@@ -129,6 +133,11 @@ public class ManagerSession extends Session implements IManagerSession {
 		//return this.namingService.getRegisteredCompany(carRentalName).getNumberOfReservationsForCarType(carType);
 	}
 
-
-
+	
+	//Copied
+	public void registerCarRentalCompany(String carRentalCompanyName,
+			ICarRentalCompany carRentalCompany) throws RemoteException {
+		namingService.register(carRentalCompanyName, carRentalCompany);
+	}
+	
 }
